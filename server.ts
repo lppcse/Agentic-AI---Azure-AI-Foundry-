@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import { createServer as createViteServer } from "vite";
@@ -60,6 +61,11 @@ function getSmtpConfig() {
   };
 }
 
+// API: Healthcheck
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 // API: Check SMTP Status
 app.get("/api/smtp-config", (req, res) => {
   const config = getSmtpConfig();
@@ -95,6 +101,20 @@ app.post("/api/smtp-config", (req, res) => {
     userMasked: config.user ? config.user.replace(/(.{2})(.*)(@.*)/, "$1***$3") : null,
     defaultRecipient: config.defaultRecipient
   });
+});
+
+// API: Serve README.md content for in-app code inspector & download
+app.get("/api/readme", (_req, res) => {
+  try {
+    const readmePath = path.join(process.cwd(), "README.md");
+    if (fs.existsSync(readmePath)) {
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      return res.send(fs.readFileSync(readmePath, "utf-8"));
+    }
+    res.status(404).send("# README.md not found");
+  } catch (err: any) {
+    res.status(500).send("Error reading README: " + err.message);
+  }
 });
 
 // API: Send Real Email (Trigger Shoot Email)

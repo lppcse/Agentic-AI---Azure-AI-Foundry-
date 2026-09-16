@@ -122,6 +122,22 @@ export default function App() {
   const [inspectorTab, setInspectorTab] = useState<"none" | "app.py" | "README.md" | "json" | "env">("none");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  const [readmeContent, setReadmeContent] = useState<string>(README_MD);
+
+  // Fetch real root README.md on mount
+  useEffect(() => {
+    fetch("/api/readme")
+      .then((res) => {
+        if (res.ok) return res.text();
+        return README_MD;
+      })
+      .then((text) => {
+        if (text && text.trim().length > 0) {
+          setReadmeContent(text);
+        }
+      })
+      .catch((err) => console.log("README fetch error:", err));
+  }, []);
 
   // Handle Preset Switching
   const handleSelectPreset = (type: "shortlisted" | "rejected" | "custom") => {
@@ -310,7 +326,7 @@ export default function App() {
 
           <button
             id="download-zip-btn"
-            onClick={() => downloadProjectZip()}
+            onClick={() => downloadProjectZip(readmeContent)}
             className="text-xs font-medium bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-3.5 py-1.5 rounded-md shadow-md shadow-cyan-500/20 flex items-center gap-1.5 transition-all"
           >
             <Download className="w-3.5 h-3.5" />
@@ -1182,7 +1198,7 @@ export default function App() {
 
                 {inspectorTab === "README.md" && (
                   <button
-                    onClick={() => downloadFile("README.md", README_MD)}
+                    onClick={() => downloadFile("README.md", readmeContent)}
                     className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-md flex items-center gap-1"
                   >
                     <Download className="w-3.5 h-3.5 text-blue-400" /> Download README.md
@@ -1199,7 +1215,7 @@ export default function App() {
                 )}
 
                 <button
-                  onClick={() => downloadProjectZip()}
+                  onClick={() => downloadProjectZip(readmeContent)}
                   className="text-xs bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-3.5 py-1.5 rounded-md flex items-center gap-1.5 shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5" /> Download ZIP
@@ -1218,7 +1234,7 @@ export default function App() {
             <div className="flex-1 overflow-hidden relative">
               <pre className="h-full overflow-y-auto bg-slate-950 p-4 rounded-lg border border-slate-800/80 text-xs font-mono text-slate-200 leading-relaxed">
                 {inspectorTab === "app.py" && APP_PY}
-                {inspectorTab === "README.md" && README_MD}
+                {inspectorTab === "README.md" && readmeContent}
                 {inspectorTab === "env" && ENV_EXAMPLE}
                 {inspectorTab === "json" && JSON.stringify(pipelineResult, null, 2)}
               </pre>
@@ -1230,7 +1246,7 @@ export default function App() {
                     inspectorTab === "app.py"
                       ? APP_PY
                       : inspectorTab === "README.md"
-                      ? README_MD
+                      ? readmeContent
                       : inspectorTab === "env"
                       ? ENV_EXAMPLE
                       : JSON.stringify(pipelineResult, null, 2);
@@ -1267,14 +1283,14 @@ export default function App() {
           </button>
           <span>•</span>
           <button
-            onClick={() => downloadFile("README.md", README_MD)}
+            onClick={() => downloadFile("README.md", readmeContent)}
             className="hover:text-blue-400 transition-colors"
           >
             Download README.md
           </button>
           <span>•</span>
           <button
-            onClick={() => downloadProjectZip()}
+            onClick={() => downloadProjectZip(readmeContent)}
             className="hover:text-emerald-400 transition-colors font-medium"
           >
             Download Complete ZIP

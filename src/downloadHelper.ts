@@ -20,12 +20,12 @@ export function downloadFile(filename: string, content: string, mimeType = "text
   URL.revokeObjectURL(url);
 }
 
-export async function downloadProjectZip() {
+export async function downloadProjectZip(readmeText?: string) {
   const zip = new JSZip();
 
   // Root files
   zip.file("app.py", APP_PY);
-  zip.file("README.md", README_MD);
+  zip.file("README.md", readmeText || README_MD);
   zip.file("requirements.txt", REQUIREMENTS_TXT);
   zip.file(".env.example", ENV_EXAMPLE);
 
