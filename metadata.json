@@ -1,0 +1,6 @@
+{
+  "name": "Agentic Recruitment System",
+  "description": "Azure AI Foundry agentic recruitment orchestrator with automated email dispatch for shortlisted candidates, resume parsing, skill matching, and full local project download.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,20 @@
+Alex Morgan
+alex.morgan.ai@example.com | (555) 234-5678 | San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Senior Generative AI & Full-Stack Solutions Architect with 7 years of progressive experience designing enterprise-grade agentic workflows, microservices, and modern web applications. Expert in Python, FastAPI, Docker, and Azure AI Foundry.
+
+TECHNICAL SKILLS
+- Languages & Frameworks: Python, FastAPI, React, Next.js, TypeScript, Node.js, SQL
+- Cloud & DevOps: Azure, AWS, Docker, Kubernetes, CI/CD, Git
+- AI & Data: RAG, LangChain, LangGraph, Agentic AI, Azure OpenAI, Machine Learning, Pandas, PostgreSQL, Redis
+
+PROFESSIONAL EXPERIENCE
+Lead AI Systems Engineer | CloudScale Systems (2020 - Present)
+- Architected multi-agent autonomous decision systems using Azure and Python FastAPI.
+- Implemented enterprise RAG pipelines indexing over 5M documents with hybrid search.
+- Scaled Docker container deployments across distributed Kubernetes clusters on Azure.
+
+Full Stack Software Engineer | Horizon Tech (2018 - 2020)
+- Built high-performance RESTful APIs with FastAPI and responsive frontends in React.
+- Integrated PostgreSQL and Redis cache layers decreasing query latency by 45%.
